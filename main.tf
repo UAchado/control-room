@@ -76,6 +76,7 @@ resource "aws_route_table_association" "public_subnet_asso" {
   route_table_id = aws_route_table.second_rt.id
 }
 
+# create security groups
 resource "aws_security_group" "public_sg" {
   name        = "public_sg"
   description = "Security Group for Public Subnet - UIs"
@@ -135,7 +136,8 @@ resource "aws_security_group" "private_sg" {
   }
 }
 
-resource "aws_instance" "user-ui" {
+# instantiate the ec2 instances
+resource "aws_instance" "user_ui" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
 
@@ -145,11 +147,11 @@ resource "aws_instance" "user-ui" {
   key_name = "mankings"
 
   tags = {
-    Name = "User-UI"
+    Name = "User - UI"
   }
 }
 
-resource "aws_instance" "management-ui" {
+resource "aws_instance" "management_ui" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
 
@@ -163,8 +165,7 @@ resource "aws_instance" "management-ui" {
   }
 }
 
-
-resource "aws_instance" "drop-off-points-api" {
+resource "aws_instance" "drop_off_points_api" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
 
@@ -178,7 +179,7 @@ resource "aws_instance" "drop-off-points-api" {
   }
 }
 
-resource "aws_instance" "inventory-api" {
+resource "aws_instance" "inventory_api" {
   ami           = "ami-0fc5d935ebf8bc3bc"
   instance_type = "t2.micro"
 
@@ -192,5 +193,19 @@ resource "aws_instance" "inventory-api" {
   }
 }
 
-# TODO 
-# better security policies
+# outputs
+output "user_ui_ip" {
+  value = aws_instance.user_ui.public_ip
+}
+
+output "management_ui_ip" {
+  value = aws_instance.management_ui.public_ip
+}
+
+output "drop_off_points_api_ip" {
+  value = aws_instance.drop_off_points_api.private_ip
+}
+
+output "inventory_api_ip" {
+  value = aws_instance.inventory_api.private_ip
+}
