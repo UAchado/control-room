@@ -27,10 +27,12 @@
     - all traffic (0.0.0.0/0)
 
 1 Internet Gateway
+1 NAT Gateway
 
-2 Route Tables
+4 Route Tables
 - 1 inherent from the VPC (provides connection within it)
 - 1 associates public subnet to internet gateway
+- 2 associate private subnets to nat gateway
 
 4 EC2 Instances
 - 2 in public subnet
