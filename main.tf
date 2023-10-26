@@ -56,7 +56,7 @@ resource "aws_internet_gateway" "gw" {
 }
 
 # create route table so that the public subnet can access the internet
-resource "aws_route_table" "second_rt" {
+resource "aws_route_table" "internet_rt" {
   vpc_id = aws_vpc.main.id
 
   route {
@@ -73,7 +73,51 @@ resource "aws_route_table" "second_rt" {
 resource "aws_route_table_association" "public_subnet_asso" {
   count          = length(var.public_subnet_cidrs)
   subnet_id      = element(aws_subnet.public_subnets[*].id, count.index)
-  route_table_id = aws_route_table.second_rt.id
+  route_table_id = aws_route_table.internet_rt.id
+}
+
+# allocate elastic ip
+resource "aws_eip" "nat_eip" {
+  instance = aws_instance.user_ui.id
+}
+
+# create nat gateway
+resource "aws_nat_gateway" "nat_gateway" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id = aws_subnet.public_subnets[0].id
+
+  tags = {
+    Name = "UAchado NAT Gateway"
+  }
+}
+
+# create route tables for private subnets
+resource "aws_route_table" "private_rt1" {
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_nat_gateway.nat_gateway.id
+  }
+}
+
+resource "aws_route_table" "private_rt2" {
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_nat_gateway.nat_gateway.id
+  }
+
+}
+
+# associate private subnets to the routing tables
+resource "aws_route_table_association" "private_subnet1_asso" {
+  subnet_id      = aws_subnet.private_subnets[0].id
+  route_table_id = aws_route_table.private_rt1.id
+}
+
+resource "aws_route_table_association" "private_subnet2_asso" {
+  subnet_id      = aws_subnet.private_subnets[1].id
+  route_table_id = aws_route_table.private_rt2.id
 }
 
 # create security groups
