@@ -78,7 +78,7 @@ resource "aws_route_table_association" "public_subnet_asso" {
 
 # allocate elastic ip
 resource "aws_eip" "nat_eip" {
-  instance = aws_instance.user_ui.id
+  instance = null
 }
 
 # create nat gateway

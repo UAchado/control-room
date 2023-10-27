@@ -3,7 +3,6 @@
 ## TODO 
 - check if nat gateway is working
 - better security policies
-- learn how to properly ssh into private subnets
 - key management
 - load balancer
 
