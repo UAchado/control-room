@@ -1,10 +1,10 @@
 # Control Room Documentation
 
 ## TODO 
-- check if nat gateway is working
-- better security policies
-- key management
 - load balancer
+- rds and s3
+- key management
+- better security policies on user for script key
 
 ## Cloud Architecture Description
 1 VPC (/24)
@@ -36,7 +36,6 @@
 4 EC2 Instances
 - 2 in public subnet
 - 1 in each private subnet
-
 
 ## References
 [SSH Agent Forwarding](https://mistwire.com/ssh-agent-forwarding-in-aws/) to connect to instances in private subnets securely
