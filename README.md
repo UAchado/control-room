@@ -4,7 +4,6 @@
 - load balancer
 - rds and s3
 - key management
-- better security policies on user for script key
 
 ## Cloud Architecture Description
 1 VPC (/24)
