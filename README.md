@@ -2,8 +2,8 @@
 
 ## TODO 
 - load balancer
+- cloud watch
 - rds and s3
-- key management
 
 ## Cloud Architecture Description
 1 VPC (/24)
