@@ -1,0 +1,3 @@
+[submodule "inventory-api"]
+	path = inventory-api
+	url = https://github.com/UAchado/inventory-api.git

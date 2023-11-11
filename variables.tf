@@ -15,3 +15,27 @@ variable "ssh_keys" {
   description = "SSH Keys to be added to the EC2 instances"
   default     = "mankings"
 }
+
+variable "inventory_db_password" {
+  type        = string
+  description = "Password for the Inventory Database"
+  default     = "test"
+}
+
+variable "inventory_db_user" {
+  type        = string
+  description = "Username for the Inventory Database"
+  default     = "test"
+}
+
+variable "drop_off_points_db_password" {
+  type        = string
+  description = "Password for the Drop Off Points Database"
+  default     = "test"
+}
+
+variable "drop_off_points_db_user" {
+  type        = string
+  description = "Username for the Drop Off Points Database"
+  default     = "test"
+}

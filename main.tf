@@ -236,6 +236,68 @@ resource "aws_instance" "inventory_api" {
   }
 }
 
+# data storage
+resource "aws_s3_bucket" "image_bucket" {
+  bucket = "image-bucket"
+
+  tags = {
+    Name = "File Storage for Images"
+  }
+}
+
+resource "aws_db_subnet_group" "drop_off_points_db_subnet_group" {
+  name       = "drop_off_points_db_subnet_group"
+  subnet_ids = [aws_subnet.private_subnets[0].id]
+
+  tags = {
+    Name = "Drop-Off-Points DB Subnet Group"
+  }
+}
+
+resource "aws_db_subnet_group" "inventory_db_subnet_group" {
+  name       = "inventory_db_subnet_group"
+  subnet_ids = [aws_subnet.private_subnets[1].id]
+
+  tags = {
+    Name = "Inventory DB Subnet Group"
+  }
+}
+resource "aws_db_instance" "inventory_db" {
+  allocated_storage    = 20
+  storage_type         = "gp2"
+  engine               = "mysql"
+  engine_version       = "8.0"
+  instance_class       = "db.t2.micro"
+  username             = var.inventory_db_user
+  password             = var.inventory_db_password
+  db_subnet_group_name = aws_db_subnet_group.inventory_db_subnet_group.name
+  parameter_group_name = "default.mysql8.0"
+  skip_final_snapshot  = true
+  publicly_accessible  = false
+
+  tags = {
+    Name = "Inventory MYSQL Database"
+  }
+}
+
+resource "aws_db_instance" "drop_off_points_db" {
+  allocated_storage    = 20
+  storage_type         = "gp2"
+  engine               = "mysql"
+  engine_version       = "8.0"
+  instance_class       = "db.t2.micro"
+  username             = var.drop_off_points_db_user
+  password             = var.drop_off_points_db_password
+  db_subnet_group_name = aws_db_subnet_group.drop_off_points_db_subnet_group.name
+  parameter_group_name = "default.mysql8.0"
+  skip_final_snapshot  = true
+  publicly_accessible  = false
+
+  tags = {
+    Name = "Drop-Off-Points MYSQL Database"
+  }
+}
+
 # outputs
 output "user_ui_ip" {
   value = aws_instance.user_ui.public_ip
