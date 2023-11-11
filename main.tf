@@ -164,13 +164,6 @@ resource "aws_security_group" "private_sg" {
     security_groups = [aws_security_group.public_sg.id]
   }
 
-  # ingress {
-  #   from_port       = <API_PORT>
-  #   to_port         = <API_PORT>
-  #   protocol        = "tcp"
-  #   security_groups = [aws_security_group.public_sg.id]
-  # }
-
   # allow all outbound traffic
   egress {
     from_port   = 0
@@ -189,6 +182,8 @@ resource "aws_instance" "user_ui" {
   subnet_id              = aws_subnet.public_subnets[0].id
 
   key_name = "mankings"
+
+  user_data = file("${path.module}/init-scripts/user_ui.sh")
 
   tags = {
     Name = "User - UI"
@@ -218,6 +213,8 @@ resource "aws_instance" "drop_off_points_api" {
 
   key_name = "mankings"
 
+  user_data = file("${path.module}/init-scripts/drop_off_points_api.sh")
+
   tags = {
     Name = "Drop-Off-Points-API"
   }
@@ -231,6 +228,8 @@ resource "aws_instance" "inventory_api" {
   subnet_id              = aws_subnet.private_subnets[1].id
 
   key_name = "mankings"
+
+  user_data = file("${path.module}/init-scripts/inventory_api.sh")
 
   tags = {
     Name = "Inventory-API"
