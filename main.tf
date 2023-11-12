@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 # create a vpc with 256 ip addresses
@@ -173,9 +173,23 @@ resource "aws_security_group" "private_sg" {
   }
 }
 
+# instance image
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+  owners = ["099720109477"] # Canonical
+}
+
 # instantiate the ec2 instances
 resource "aws_instance" "user_ui" {
-  ami           = "ami-0fc5d935ebf8bc3bc"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.public_sg.id]
@@ -191,7 +205,7 @@ resource "aws_instance" "user_ui" {
 }
 
 resource "aws_instance" "management_ui" {
-  ami           = "ami-0fc5d935ebf8bc3bc"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.public_sg.id]
@@ -205,7 +219,7 @@ resource "aws_instance" "management_ui" {
 }
 
 resource "aws_instance" "drop_off_points_api" {
-  ami           = "ami-0fc5d935ebf8bc3bc"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.private_sg.id]
@@ -221,7 +235,7 @@ resource "aws_instance" "drop_off_points_api" {
 }
 
 resource "aws_instance" "inventory_api" {
-  ami           = "ami-0fc5d935ebf8bc3bc"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.private_sg.id]
@@ -237,14 +251,6 @@ resource "aws_instance" "inventory_api" {
 }
 
 # data storage
-resource "aws_s3_bucket" "image_bucket" {
-  bucket = "image-bucket"
-
-  tags = {
-    Name = "File Storage for Images"
-  }
-}
-
 resource "aws_db_subnet_group" "drop_off_points_db_subnet_group" {
   name       = "drop_off_points_db_subnet_group"
   subnet_ids = [aws_subnet.private_subnets[0].id]
