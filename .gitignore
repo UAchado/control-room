@@ -35,5 +35,3 @@ terraform.rc
 
 .terraform.lock
 .terraform.lock.hcl
-
-variables.tf
