@@ -1,4 +1,11 @@
 terraform {
+  cloud {
+    organization = "UAchado_Org"
+    workspaces {
+      name = "control-room"
+    }
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -27,6 +34,7 @@ resource "aws_subnet" "public_subnets" {
   count      = length(var.public_subnet_cidrs)
   vpc_id     = aws_vpc.main.id
   cidr_block = element(var.public_subnet_cidrs, count.index)
+  availability_zone = element(var.availability_zones, count.index)
 
   map_public_ip_on_launch = true
 
@@ -40,6 +48,7 @@ resource "aws_subnet" "private_subnets" {
   count      = length(var.private_subnet_cidrs)
   vpc_id     = aws_vpc.main.id
   cidr_block = element(var.private_subnet_cidrs, count.index)
+  availability_zone = element(var.availability_zones, count.index)
 
   tags = {
     Name = "Private Subnet ${count.index + 1}"
@@ -211,22 +220,22 @@ resource "aws_instance" "user_ui" {
   depends_on = [ aws_internet_gateway.gw ]
 }
 
-# resource "aws_instance" "management_ui" {
-#   ami           = data.aws_ami.ubuntu.id
-#   instance_type = "t2.micro"
+resource "aws_instance" "management_ui" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
 
-#   vpc_security_group_ids = [aws_security_group.public_sg.id]
-#   subnet_id              = aws_subnet.public_subnets[0].id
+  vpc_security_group_ids = [aws_security_group.public_sg.id]
+  subnet_id              = aws_subnet.public_subnets[0].id
 
-#   key_name = "terraform-key"
+  key_name = "terraform-key"
 
-#   tags = {
-#     Name = "Management-UI"
-#   }
+  tags = {
+    Name = "Management-UI"
+  }
 
-#   depends_on = [ aws_internet_gateway.gw ]
+  depends_on = [ aws_internet_gateway.gw ]
 
-# }
+}
 
 resource "aws_instance" "drop_off_points_api" {
   ami           = data.aws_ami.ubuntu.id
@@ -264,59 +273,60 @@ resource "aws_instance" "inventory_api" {
   depends_on = [ aws_nat_gateway.nat_gateway ]
 }
 
-# # data storage
-# resource "aws_db_subnet_group" "drop_off_points_db_subnet_group" {
-#   name       = "drop_off_points_db_subnet_group"
-#   subnet_ids = [aws_subnet.private_subnets[0].id]
+# data storage
+resource "aws_db_subnet_group" "drop_off_points_db_subnet_group" {
+  name       = "drop_off_points_db_subnet_group"
+  subnet_ids = [aws_subnet.private_subnets[0].id, aws_subnet.private_subnets[1].id]
 
-#   tags = {
-#     Name = "Drop-Off-Points DB Subnet Group"
-#   }
-# }
+  tags = {
+    Name = "Drop-Off-Points DB Subnet Group"
+  }
+}
 
-# resource "aws_db_subnet_group" "inventory_db_subnet_group" {
-#   name       = "inventory_db_subnet_group"
-#   subnet_ids = [aws_subnet.private_subnets[1].id]
+resource "aws_db_subnet_group" "inventory_db_subnet_group" {
+  name       = "inventory_db_subnet_group"
+  subnet_ids = [aws_subnet.private_subnets[0].id, aws_subnet.private_subnets[1].id]
 
-#   tags = {
-#     Name = "Inventory DB Subnet Group"
-#   }
-# }
-# resource "aws_db_instance" "inventory_db" {
-#   allocated_storage    = 20
-#   storage_type         = "gp2"
-#   engine               = "mysql"
-#   engine_version       = "8.0"
-#   instance_class       = "db.t2.micro"
-#   username             = var.inventory_db_user
-#   password             = var.inventory_db_password
-#   db_subnet_group_name = aws_db_subnet_group.inventory_db_subnet_group.name
-#   parameter_group_name = "default.mysql8.0"
-#   skip_final_snapshot  = true
-#   publicly_accessible  = false
+  tags = {
+    Name = "Inventory DB Subnet Group"
+  }
+}
 
-#   tags = {
-#     Name = "Inventory MYSQL Database"
-#   }
-# }
+resource "aws_db_instance" "inventory_db" {
+  allocated_storage    = 20
+  storage_type         = "gp2"
+  engine               = "mysql"
+  engine_version       = "8.0"
+  instance_class       = "db.t2.micro"
+  username             = var.inventory_db_user
+  password             = var.inventory_db_password
+  db_subnet_group_name = aws_db_subnet_group.inventory_db_subnet_group.name
+  parameter_group_name = "default.mysql8.0"
+  skip_final_snapshot  = true
+  publicly_accessible  = false
 
-# resource "aws_db_instance" "drop_off_points_db" {
-#   allocated_storage    = 20
-#   storage_type         = "gp2"
-#   engine               = "mysql"
-#   engine_version       = "8.0"
-#   instance_class       = "db.t2.micro"
-#   username             = var.drop_off_points_db_user
-#   password             = var.drop_off_points_db_password
-#   db_subnet_group_name = aws_db_subnet_group.drop_off_points_db_subnet_group.name
-#   parameter_group_name = "default.mysql8.0"
-#   skip_final_snapshot  = true
-#   publicly_accessible  = false
+  tags = {
+    Name = "Inventory MYSQL Database"
+  }
+}
 
-#   tags = {
-#     Name = "Drop-Off-Points MYSQL Database"
-#   }
-# }
+resource "aws_db_instance" "drop_off_points_db" {
+  allocated_storage    = 20
+  storage_type         = "gp2"
+  engine               = "mysql"
+  engine_version       = "8.0"
+  instance_class       = "db.t2.micro"
+  username             = var.drop_off_points_db_user
+  password             = var.drop_off_points_db_password
+  db_subnet_group_name = aws_db_subnet_group.drop_off_points_db_subnet_group.name
+  parameter_group_name = "default.mysql8.0"
+  skip_final_snapshot  = true
+  publicly_accessible  = false
+
+  tags = {
+    Name = "Drop-Off-Points MYSQL Database"
+  }
+}
 
 # outputs
 output "user_ui_ip" {
