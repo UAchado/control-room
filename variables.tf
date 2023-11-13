@@ -13,7 +13,7 @@ variable "private_subnet_cidrs" {
 variable "ssh_keys" {
   type        = string
   description = "SSH Keys to be added to the EC2 instances"
-  default     = "mankings"
+  default     = "terraform-key"
 }
 
 variable "inventory_db_password" {
