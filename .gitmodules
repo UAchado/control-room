@@ -1,9 +1,6 @@
 [submodule "inventory-api"]
 	path = inventory-api
 	url = git@github.com:UAchado/inventory-api.git
-[submodule "user_ui"]
-	path = user_ui
-	url = git@github.com:UAchado/user_ui.git
 [submodule "drop-off-points-api"]
 	path = drop-off-points-api
 	url = git@github.com:UAchado/drop-off-points-api.git
