@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  user-ui:
+    build:
+      context: ./user_ui
+      dockerfile: Dockerfile.prod
+    ports:
+      - 3000:3000
+    depends_on:
+      - drop-off-points-api
+      - inventory-api
+    environment:
+      - ENV_FILE_PATH=../.env.dev
+
+  drop-off-points-api:
+    build:
+      context: ./drop-off-points-api
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8000:8000
+    depends_on:
+      drop-off-points-db:
+        condition: service_healthy
+    environment:
+      - ENV_FILE_PATH=../.env.dev
+
+  drop-off-points-db:
+    image: mysql:latest
+    env_file:
+      - ./drop-off-points-api/.env.devdb
+    volumes:
+      - drop-off-points-db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+
+  inventory-api:
+    build:
+      context: ./inventory-api
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8001:8000
+    depends_on:
+      inventory-db:
+        condition: service_healthy
+    environment:
+      - ENV_FILE_PATH=../.env.dev
+  
+  inventory-db:
+    image: mysql:latest
+    env_file:
+      - ./inventory-api/.env.devdb
+    volumes:
+      - inventory-db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+
+volumes:
+  drop-off-points-db:
+  inventory-db:

@@ -51,3 +51,12 @@ resource "aws_db_instance" "drop_off_points_db" {
     Name = "Drop-Off-Points MYSQL Database"
   }
 }
+
+resource "aws_s3_bucket" "image_bucket" {
+  bucket = "uachado-image-bucket"
+
+  tags = {
+    Name        = "Image Bucket"
+    Environment = "Prod"
+  }
+}
