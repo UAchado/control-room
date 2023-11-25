@@ -22,26 +22,13 @@ resource "aws_instance" "user_ui" {
   key_name = var.key_name
 
   user_data = file("${path.module}/init-scripts/user_ui.sh")
+  # user_data = <<-EOF
+  #              #!/bin/bash
+  #              ${templatefile("${path.module}/init-scripts/user_ui.sh", { my_var = var.my_var })}
+  #              EOF
 
   tags = {
     Name = "User - UI"
-    NatGatewayID = var.nat_gateway_id
-  }
-
-  depends_on = [aws_instance.inventory_api, aws_instance.drop_off_points_api ]
-}
-
-resource "aws_instance" "management_ui" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-
-  vpc_security_group_ids = [ var.public_sg_id ]
-  subnet_id              = var.public_subnet_id
-
-  key_name = var.key_name
-
-  tags = {
-    Name = "Management-UI"
     NatGatewayID = var.nat_gateway_id
   }
 
@@ -57,7 +44,11 @@ resource "aws_instance" "drop_off_points_api" {
 
   key_name = var.key_name
 
-  user_data = file("${path.module}/init-scripts/drop_off_points_api.sh")
+  user_data = <<-EOF
+               #!/bin/bash
+               ${templatefile("${path.module}/init-scripts/drop_off_points_api.sh", { conn_str = var.drop_off_points_db_connection_string })}
+               EOF
+  
 
   tags = {
     Name = "Drop-Off-Points-API"
@@ -74,7 +65,10 @@ resource "aws_instance" "inventory_api" {
 
   key_name = var.key_name
 
-  user_data = file("${path.module}/init-scripts/inventory_api.sh")
+  user_data = <<-EOF
+             #!/bin/bash
+             ${templatefile("${path.module}/init-scripts/inventory_api.sh", { conn_str = var.inventory_db_connection_string })}
+             EOF
 
   tags = {
     Name = "Inventory-API"

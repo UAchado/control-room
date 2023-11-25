@@ -43,6 +43,8 @@ module "database" {
   inventory_db_password = var.inventory_db_password
   drop_off_points_db_user = var.drop_off_points_db_user
   drop_off_points_db_password = var.drop_off_points_db_password
+
+  rds_sg_id = module.security.rds_sg_id
 }
 
 module "compute" {
@@ -55,6 +57,10 @@ module "compute" {
   private_sg_id = module.security.private_sg_id
 
   nat_gateway_id = module.networking.nat_gateway_id
+
+  inventory_db_connection_string = module.database.inventory_db_connection_string
+  drop_off_points_db_connection_string = module.database.drop_off_points_db_connection_string
+  s3_bucket_name = module.database.s3_bucket_name
 
   key_name = module.iam.key_name
 }

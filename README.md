@@ -1,9 +1,7 @@
 # Control Room Documentation
 
 ## TODO 
-- load balancer
 - cloud watch
-- rds and s3
 
 ## Cloud Architecture Description
 1 VPC (/24)
@@ -41,9 +39,7 @@
 2 RDS Instances
 - across both private subnets
   
-<!-- 1 S3 bucket -->
-
-<!-- 1 Load Balancer -->
+1 S3 bucket
 
 ## References
 [SSH Agent Forwarding](https://mistwire.com/ssh-agent-forwarding-in-aws/) to connect to instances in private subnets securely

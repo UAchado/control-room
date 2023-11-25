@@ -2,10 +2,6 @@ output "user_ui_ip" {
   value = aws_instance.user_ui.public_ip
 }
 
-output "management_ui_ip" {
-    value = aws_instance.management_ui.public_ip
-}
-
 output "inventory_api_ip" {
     value = aws_instance.inventory_api.private_ip
 }
