@@ -1,29 +1,27 @@
 name: Destroy Infrastructure
 
-on:
-  workflow_dispatch
+on: 
+  workflow_dispatch 
 
 jobs:
-  terraform_destroy:
+  terraform:
+    name: 'Terraform'
     runs-on: ubuntu-latest
-
+  
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Get Terraform State from artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: terraform-state
-
-    - name: Set up Terraform
+    - name: Checkout
+      uses: actions/checkout@v3
+  
+    - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
-
-    - name: Terraform init
-      run: terraform init
-
-    - name: Destroy Terraform infrastructure
-      run: terraform destroy -auto-approve -state=terraform.tfstate
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      with:
+        cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+  
+    - name: Terraform Init
+      run: terraform init -input=false
+  
+    - name: Terraform Plan
+      run: terraform plan -input=false
+  
+    - name: Terraform Apply
+      run: terraform destroy -auto-approve -input=false

@@ -1,10 +1,12 @@
 terraform {
-  # cloud {
-  #   organization = "UAchado_Org"
-  #   workspaces {
-  #     name = "control-room"
-  #   }
-  # }
+  cloud {
+    organization = "uachadomartelo"
+
+    workspaces {
+      name = "main"
+    }
+  }
+
 
   required_providers {
     aws = {
