@@ -23,5 +23,5 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -input=false
   
-    - name: Terraform Apply
+    - name: Terraform Destroy
       run: terraform destroy -auto-approve -input=false
