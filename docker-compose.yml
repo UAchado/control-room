@@ -11,7 +11,7 @@ services:
       - drop-off-points-api
       - inventory-api
     environment:
-      - ENV_FILE_PATH=../.env.dev
+      - ENV_FILE_PATH=../.env.development
 
   drop-off-points-api:
     build:
@@ -29,6 +29,7 @@ services:
     image: mysql:latest
     env_file:
       - ./drop-off-points-api/.env.devdb
+      - ./drop-off-points-api/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     volumes:
       - drop-off-points-db:/var/lib/mysql
     healthcheck:
