@@ -6,12 +6,12 @@ services:
       context: ./user_ui
       dockerfile: Dockerfile.prod
     ports:
-      - 3000:3000
+      - 80:80
     depends_on:
       - drop-off-points-api
       - inventory-api
     environment:
-      - ENV_FILE_PATH=../.env.development
+      - ENV_FILE_PATH=./uachado-user/.env.production
 
   drop-off-points-api:
     build:
@@ -29,9 +29,9 @@ services:
     image: mysql:latest
     env_file:
       - ./drop-off-points-api/.env.devdb
-      - ./drop-off-points-api/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     volumes:
       - drop-off-points-db:/var/lib/mysql
+      - ./drop-off-points-api/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
