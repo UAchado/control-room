@@ -7,7 +7,7 @@ resource "aws_vpc" "main" {
   }
 }
 
-# create public subnet with 128 addresses (var file)
+# create 2 public subnets with 64 addresses (var file)
 resource "aws_subnet" "public_subnets" {
   count      = length(var.public_subnet_cidrs)
   vpc_id     = aws_vpc.main.id

@@ -33,6 +33,14 @@ resource "aws_security_group" "private_sg" {
   description = "Security Group for Private Subnets - APIs"
   vpc_id      = var.vpc_id
 
+  # allow inbound traffic on port 80 (http) from the public subnet
+  ingress { 
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    security_groups = [aws_security_group.public_sg.id]
+  }
+
   # allow inbound traffic on port 22 (ssh) from the public subnet
   ingress {
     from_port       = 22
