@@ -60,7 +60,7 @@ resource "aws_lb_target_group" "inventory_api_tg" {
   vpc_id      = var.vpc_id
 
   health_check {
-    path = "/v1/"
+    path = "/inventory/v1/"
   }
 }
 
@@ -91,6 +91,6 @@ resource "aws_lb_target_group" "drop_off_points_api_tg" {
   vpc_id      = var.vpc_id
 
   health_check {
-    path = "/v1/"
+    path = "/points/v1/"
   }
 }

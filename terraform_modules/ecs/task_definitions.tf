@@ -39,11 +39,11 @@ resource "aws_ecs_task_definition" "user_ui_task_definition" {
 
         {
           name  = "VITE_INVENTORY_URL"
-          value = "http://${var.inventory_lb_dns_name}/inventory/v1/"
+          value = "https://${var.inventory_lb_dns_name}/inventory/v1/"
         },
         {
           name  = "VITE_POINTS_URL"
-          value = "http://${var.points_lb_dns_name}/points/v1/"
+          value = "https://${var.points_lb_dns_name}/points/v1/"
         },
         {
           name = "VITE_API_KEY"
