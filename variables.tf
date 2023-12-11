@@ -60,3 +60,18 @@ variable "google_api_key" {
   type        = string
   description = "The Google API key"
 }
+
+variable "ui_lb_dns_name" {
+  type        = string
+  description = "The DNS name for the user-ui load balancer"
+}
+
+variable "inventory_lb_dns_name" {
+  type        = string
+  description = "The DNS name for the inventory-api load balancer"
+}
+
+variable "points_lb_dns_name" {
+  type        = string
+  description = "The DNS name for the drop-off-points-api load balancer"
+}
