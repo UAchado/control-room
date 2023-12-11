@@ -9,7 +9,10 @@ resource "aws_ecs_service" "user_ui_service" {
     security_groups = [var.private_sg_id]
   }
 
-  force_new_deployment = true
+#   force_new_deployment = true
+#   triggers = {
+#    redeployment = timestamp()
+#  }
 
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.private.name
@@ -34,7 +37,10 @@ resource "aws_ecs_service" "inventory_api_service" {
     security_groups = [var.private_sg_id]
   }
 
-  force_new_deployment = true
+#   force_new_deployment = true
+#   triggers = {
+#    redeployment = timestamp()
+#  }
 
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.private.name
@@ -59,7 +65,10 @@ resource "aws_ecs_service" "drop_off_points_api_service" {
     security_groups = [var.private_sg_id]
   }
 
-  force_new_deployment = true
+#   force_new_deployment = true
+#   triggers = {
+#    redeployment = timestamp()
+#  }  
 
   capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.private.name

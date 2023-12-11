@@ -5,7 +5,7 @@ data "aws_ssm_parameter" "ecs_node_ami" {
 resource "aws_launch_template" "private_ecs_lt" {
   name_prefix   = "private-ecs-template-"
   image_id      = data.aws_ssm_parameter.ecs_node_ami.value
-  instance_type = "t3.micro"
+  instance_type = "t2.micro"
 
   key_name               = var.key_name
   vpc_security_group_ids = [var.private_sg_id]

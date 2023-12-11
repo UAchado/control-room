@@ -34,19 +34,23 @@ variable "user_ui_image" {
   type = string
 }
 
-variable "inventory_api_image" {
+variable "inventory_api_image_repo" {
   type = string
 }
 
-variable "drop_off_points_api_image" {
+variable "drop_off_points_api_image_repo" {
   type = string
 }
 
-variable "inventory_api_url" {
+variable "google_api_key" {
   type = string
 }
 
-variable "drop_off_points_api_url" {
+variable "inventory_lb_dns_name" {
+  type = string
+}
+
+variable "points_lb_dns_name" {
   type = string
 }
 

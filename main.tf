@@ -43,8 +43,10 @@ module "database" {
 
   inventory_db_user = var.inventory_db_user
   inventory_db_password = var.inventory_db_password
+  inventory_db_name = var.inventory_db_name
   drop_off_points_db_user = var.drop_off_points_db_user
   drop_off_points_db_password = var.drop_off_points_db_password
+  drop_off_points_db_name = var.drop_off_points_db_name
 
   rds_sg_id = module.security.rds_sg_id
 }
@@ -75,14 +77,15 @@ module "ecs" {
   public_sg_id = module.security.public_sg_id
   private_sg_id = module.security.private_sg_id
   
-  user_ui_image = var.user_ui_image
-  inventory_api_image = var.inventory_api_image
-  drop_off_points_api_image = var.drop_off_points_api_image
-
   private_ecs_asg_arn = module.ec2.private_ecs_asg_arn
   
-  inventory_api_url = var.inventory_api_url
-  drop_off_points_api_url = var.drop_off_points_api_url
+  user_ui_image = var.user_ui_image
+  inventory_api_image_repo = var.inventory_api_image_repo
+  drop_off_points_api_image_repo = var.drop_off_points_api_image_repo
+  
+  google_api_key = var.google_api_key
+  inventory_lb_dns_name = module.ec2.inventory_lb_dns_name
+  points_lb_dns_name = module.ec2.points_lb_dns_name
 
   inventory_db_connection_string = module.database.inventory_db_connection_string
   drop_off_points_db_connection_string = module.database.drop_off_points_db_connection_string

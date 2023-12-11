@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "user_ui_task_definition" {
       name      = "uachado-user-ui"
       image     = var.user_ui_image
       cpu       = 512
-      memory    = 1024
+      memory    = 512
       essential = true
       portMappings = [
         {
@@ -38,14 +38,17 @@ resource "aws_ecs_task_definition" "user_ui_task_definition" {
       environment = [
 
         {
-          name  = "INVENTORY_API_URL"
-          value = var.inventory_api_url
+          name  = "VITE_INVENTORY_URL"
+          value = "http://${var.inventory_lb_dns_name}/inventory/v1/"
         },
         {
-          name  = "DROP_OFF_POINTS_API_URL"
-          value = var.drop_off_points_api_url
+          name  = "VITE_POINTS_URL"
+          value = "http://${var.points_lb_dns_name}/points/v1/"
+        },
+        {
+          name = "VITE_API_KEY"
+          value = "${var.google_api_key}"
         }
-
       ]
     }
   ])
@@ -55,7 +58,7 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
   family             = "inventory-api-task"
   network_mode       = "awsvpc"
   execution_role_arn = "arn:aws:iam::334642795591:role/ecsTaskExecutionRole"
-  cpu                = 256
+  cpu                = 512
 
   runtime_platform {
     operating_system_family = "LINUX"
@@ -65,8 +68,8 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
   container_definitions = jsonencode([
     {
       name      = "uachado-inventory-api"
-      image     = var.inventory_api_image
-      cpu       = 256
+      image     = var.inventory_api_image_repo
+      cpu       = 512
       memory    = 512
       essential = true
       portMappings = [
@@ -86,7 +89,7 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
       }
       environment = [
         {
-          name  = "INVENTORY_DB_CONNECTION_STRING"
+          name  = "DATABASE_URL"
           value = var.inventory_db_connection_string
         }
       ]
@@ -98,7 +101,7 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
   family             = "drop-off-points-api-task"
   network_mode       = "awsvpc"
   execution_role_arn = "arn:aws:iam::334642795591:role/ecsTaskExecutionRole"
-  cpu                = 256
+  cpu                = 512
 
   runtime_platform {
     operating_system_family = "LINUX"
@@ -108,8 +111,8 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
   container_definitions = jsonencode([
     {
       name      = "uachado-drop-off-points-api"
-      image     = var.drop_off_points_api_image
-      cpu       = 256
+      image     = var.drop_off_points_api_image_repo
+      cpu       = 512
       memory    = 512
       essential = true
       portMappings = [
@@ -129,7 +132,7 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
       }
       environment = [
         {
-          name  = "DROP_OFF_POINTS_DB_CONNECTION_STRING"
+          name  = "DATABASE_URL"
           value = var.drop_off_points_db_connection_string
         }
       ]

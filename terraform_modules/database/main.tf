@@ -17,7 +17,7 @@ resource "aws_db_subnet_group" "inventory_db_subnet_group" {
 }
 
 resource "aws_db_instance" "inventory_db" {
-  db_name              = "inventory_db"
+  db_name              = var.inventory_db_name
   allocated_storage    = 20
   storage_type         = "gp2"
   engine               = "mysql"
@@ -40,7 +40,7 @@ resource "aws_db_instance" "inventory_db" {
 }
 
 resource "aws_db_instance" "drop_off_points_db" {
-  db_name              = "drop_off_points_db"
+  db_name              = var.drop_off_points_db_name
   allocated_storage    = 20
   storage_type         = "gp2"
   engine               = "mysql"
@@ -52,7 +52,7 @@ resource "aws_db_instance" "drop_off_points_db" {
   parameter_group_name = "default.mysql8.0"
   skip_final_snapshot  = true
   publicly_accessible  = false
-  identifier           = "drop-off-points-db"
+  identifier           = "points-db"
 
   vpc_security_group_ids = [var.rds_sg_id]
 
