@@ -61,3 +61,4 @@ services:
 volumes:
   drop-off-points-db:
   inventory-db:
+

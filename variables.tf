@@ -61,17 +61,23 @@ variable "google_api_key" {
   description = "The Google API key"
 }
 
-variable "ui_lb_dns_name" {
+variable "smtp_server" {
   type        = string
-  description = "The DNS name for the user-ui load balancer"
+  description = "The SMTP server"
 }
 
-variable "inventory_lb_dns_name" {
+variable "smtp_port" {
   type        = string
-  description = "The DNS name for the inventory-api load balancer"
+  description = "The SMTP port"
 }
 
-variable "points_lb_dns_name" {
+variable "email_username" {
   type        = string
-  description = "The DNS name for the drop-off-points-api load balancer"
+  description = "The SMTP username"
+}
+
+variable "email_password" {
+  type        = string
+  description = "The SMTP password"
+  sensitive   = true
 }

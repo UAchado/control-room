@@ -65,3 +65,19 @@ variable "drop_off_points_db_connection_string" {
 variable "region" {
   type = string
 }
+
+variable "smtp_server" {
+  type = string
+}
+
+variable "smtp_port" {
+  type = string
+}
+
+variable "email_username" {
+  type = string
+}
+
+variable "email_password" {
+  type = string
+}

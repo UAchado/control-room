@@ -18,5 +18,3 @@ output "s3_bucket_name" {
 output "lb_dns_name" {
   value = module.ec2.ui_lb_dns_name
 }
-
-

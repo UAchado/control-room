@@ -91,6 +91,22 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
         {
           name  = "DATABASE_URL"
           value = var.inventory_db_connection_string
+        },
+        {
+          name = "SMTP_SERVER"
+          value = var.smtp_server
+        },
+        {
+          name = "SMTP_PORT"
+          value = var.smtp_port
+        },
+        {
+          name = "EMAIL_USERNAME"
+          value = var.email_username
+        },
+        {
+          name = "EMAIL_PASSWORD"
+          value = var.email_password
         }
       ]
     }

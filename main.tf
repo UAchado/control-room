@@ -87,8 +87,12 @@ module "ecs" {
   inventory_lb_dns_name = module.ec2.inventory_lb_dns_name
   points_lb_dns_name = module.ec2.points_lb_dns_name
 
-  inventory_db_connection_string = module.database.inventory_db_connection_string
   drop_off_points_db_connection_string = module.database.drop_off_points_db_connection_string
+  inventory_db_connection_string = module.database.inventory_db_connection_string
+  smtp_server = var.smtp_server
+  smtp_port = var.smtp_port
+  email_username = var.email_username
+  email_password = var.email_password
 
   user_ui_tg_arn = module.ec2.user_ui_tg_arn
   inventory_api_tg_arn = module.ec2.inventory_api_tg_arn
