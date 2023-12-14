@@ -1,4 +1,4 @@
-resource "aws_autoscaling_group" "private" {
+resource "aws_autoscaling_group" "asg" {
   vpc_zone_identifier = var.private_subnet_ids
   health_check_grace_period = 0
   health_check_type = "EC2"
@@ -7,7 +7,7 @@ resource "aws_autoscaling_group" "private" {
   max_size            = 6
 
   launch_template {
-    id      = aws_launch_template.private_ecs_lt.id
+    id      = aws_launch_template.ecs_lt.id
     version = "$Latest"
   }
 

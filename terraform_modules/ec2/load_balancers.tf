@@ -2,7 +2,7 @@ resource "aws_lb" "ui_lb" {
   name               = "ui-lb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.public_sg_id]
+  security_groups    = [var.lbs_sg_id]
   subnets            = var.public_subnet_ids
 }
 
@@ -35,10 +35,10 @@ resource "aws_lb_target_group" "user_ui_tg" {
 
 resource "aws_lb" "inventory_lb" {
   name               = "inventory-lb"
-  internal           = false
+  internal           = true
   load_balancer_type = "application"
-  security_groups    = [var.public_sg_id]
-  subnets            = var.public_subnet_ids
+  security_groups    = [var.lbs_sg_id]
+  subnets            = var.private_subnet_ids
 }
 
 resource "aws_lb_listener" "inventory" {
@@ -66,10 +66,10 @@ resource "aws_lb_target_group" "inventory_api_tg" {
 
 resource "aws_lb" "points_lb" {
   name               = "points-lb"
-  internal           = false
+  internal           = true
   load_balancer_type = "application"
-  security_groups    = [var.public_sg_id]
-  subnets            = var.public_subnet_ids
+  security_groups    = [var.lbs_sg_id]
+  subnets            = var.private_subnet_ids
 }
 
 resource "aws_lb_listener" "points" {
@@ -94,3 +94,4 @@ resource "aws_lb_target_group" "drop_off_points_api_tg" {
     path = "/points/v1/"
   }
 }
+

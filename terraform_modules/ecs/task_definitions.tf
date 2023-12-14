@@ -9,8 +9,6 @@ resource "aws_ecs_task_definition" "user_ui_task_definition" {
     cpu_architecture        = "X86_64"
   }
 
-
-
   container_definitions = jsonencode([
     {
       name      = "uachado-user-ui"
@@ -39,11 +37,11 @@ resource "aws_ecs_task_definition" "user_ui_task_definition" {
 
         {
           name  = "VITE_INVENTORY_URL"
-          value = "http://${var.inventory_lb_dns_name}/inventory/v1/"
+          value = "${var.inventory_lb_dns_name}/inventory/v1/"
         },
         {
           name  = "VITE_POINTS_URL"
-          value = "http://${var.points_lb_dns_name}/points/v1/"
+          value = "${var.points_lb_dns_name}/points/v1/"
         },
         {
           name = "VITE_API_KEY"
@@ -107,6 +105,14 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
         {
           name = "EMAIL_PASSWORD"
           value = var.email_password
+        },
+        {
+          name = "COGNITO_ISSUER"
+          value = var.cognito_issuer
+        },
+        {
+          name = "COGNITO_AUDIENCE"
+          value = var.cognito_audience
         }
       ]
     }
@@ -150,6 +156,14 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
         {
           name  = "DATABASE_URL"
           value = var.drop_off_points_db_connection_string
+        },
+        {
+          name = "COGNITO_ISSUER"
+          value = var.cognito_issuer
+        },
+        {
+          name = "COGNITO_AUDIENCE"
+          value = var.cognito_audience
         }
       ]
     }

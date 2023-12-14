@@ -2,13 +2,13 @@ data "aws_ssm_parameter" "ecs_node_ami" {
   name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
 }
 
-resource "aws_launch_template" "private_ecs_lt" {
+resource "aws_launch_template" "ecs_lt" {
   name_prefix   = "private-ecs-template-"
   image_id      = data.aws_ssm_parameter.ecs_node_ami.value
   instance_type = "t2.micro"
 
   key_name               = var.key_name
-  vpc_security_group_ids = [var.private_sg_id]
+  vpc_security_group_ids = [var.instances_sg_id]
   iam_instance_profile {
     name = "ecsInstanceRole"
   }

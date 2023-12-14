@@ -1,5 +1,4 @@
 variable "public_key" {
   type        = string
   description = "SSH Public Key"
-  default     = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCH861EHHWpge1+2OQh0+ShM35nzlCxxybYAuifLtIp+o1sEH2WjKluZDu3PQ+pRgvoUO2WAV/11kX6KneloBtWMYZPHPy66NRYgJHBwxCUt7tnhCzAumFrmoRMuBiuaZS3p9tHtjV3EZr4K9GjyinG7jraiPY8um4osffWqwMuDaQXr3nF6COCxxvLO6pmu2/LTJZc6DQ72fUet5lkKdMC9X+NcWoaS1yD/yLN/jXxHby2bgCJH11kVE5xXVfXzGeqR5yVM9W/q7jwas1khdItpYOYZT8z17UTDU76wM5dKrc7fnT/3mvD1oM45ntiwKdFDuNX9w8Nvtm3eFNh+BFTK4nONG/AcddHnResAZOCnkZiidSoFqDKL29rjiBkvCozNfDWuu4qdKnIo3AalG6vFXTDXaPvD1/zSnlJ/illnkDXekfKSeQKqycE96ZmRF46iFWdJnQEim8ABVl1K+KG3KCzdanYedTVghOJFA+Obyf7VG33O3HhdAjHWyudwcc= mankings@pop-os"
 }

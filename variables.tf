@@ -56,6 +56,11 @@ variable "drop_off_points_api_image_repo" {
   default     = "334642795591.dkr.ecr.us-west-1.amazonaws.com/drop-off-points-api"
 }
 
+variable "public_key" {
+  type        = string
+  description = "The value of the public key"
+}
+
 variable "google_api_key" {
   type        = string
   description = "The Google API key"
@@ -80,4 +85,14 @@ variable "email_password" {
   type        = string
   description = "The SMTP password"
   sensitive   = true
+}
+
+variable "cognito_issuer" {
+  type        = string
+  description = "The Cognito issuer"
+}
+
+variable "cognito_audience" {
+  type        = string
+  description = "The Cognito audience"
 }

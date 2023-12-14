@@ -1,8 +1,8 @@
-resource "aws_ecs_capacity_provider" "private" {
+resource "aws_ecs_capacity_provider" "provider" {
   name = "private-capacity-provider"
 
   auto_scaling_group_provider {
-    auto_scaling_group_arn = var.private_ecs_asg_arn
+    auto_scaling_group_arn = var.ecs_asg_arn
 
     managed_scaling {
       maximum_scaling_step_size = 2
@@ -15,5 +15,5 @@ resource "aws_ecs_capacity_provider" "private" {
 
 resource "aws_ecs_cluster_capacity_providers" "asso" {
   cluster_name = aws_ecs_cluster.ecs_cluster.name
-  capacity_providers = [aws_ecs_capacity_provider.private.name]
+  capacity_providers = [aws_ecs_capacity_provider.provider.name]
 }

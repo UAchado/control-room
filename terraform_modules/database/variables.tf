@@ -1,3 +1,9 @@
+
+variable "vpc_id" {
+  type        = string
+  description = "The ID of the VPC"
+}
+
 variable "private_subnet_ids" {
   type        = list(string)
   description = "The IDs of the private subnets"

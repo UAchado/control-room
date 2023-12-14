@@ -5,17 +5,17 @@ resource "aws_ecs_service" "user_ui_service" {
   desired_count   = 1
 
   network_configuration {
-    subnets         = var.private_subnet_ids
-    security_groups = [var.private_sg_id]
+    subnets          = var.private_subnet_ids
+    security_groups  = [var.instances_sg_id]
   }
 
-#   force_new_deployment = true
-#   triggers = {
-#    redeployment = timestamp()
-#  }
+  #   force_new_deployment = true
+  #   triggers = {
+  #    redeployment = timestamp()
+  #  }
 
   capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.private.name
+    capacity_provider = aws_ecs_capacity_provider.provider.name
     weight            = 100
   }
 
@@ -34,16 +34,16 @@ resource "aws_ecs_service" "inventory_api_service" {
 
   network_configuration {
     subnets         = var.private_subnet_ids
-    security_groups = [var.private_sg_id]
+    security_groups = [var.instances_sg_id]
   }
 
-#   force_new_deployment = true
-#   triggers = {
-#    redeployment = timestamp()
-#  }
+  #   force_new_deployment = true
+  #   triggers = {
+  #    redeployment = timestamp()
+  #  }
 
   capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.private.name
+    capacity_provider = aws_ecs_capacity_provider.provider.name
     weight            = 100
   }
 
@@ -62,16 +62,16 @@ resource "aws_ecs_service" "drop_off_points_api_service" {
 
   network_configuration {
     subnets         = var.private_subnet_ids
-    security_groups = [var.private_sg_id]
+    security_groups = [var.instances_sg_id]
   }
 
-#   force_new_deployment = true
-#   triggers = {
-#    redeployment = timestamp()
-#  }  
+  #   force_new_deployment = true
+  #   triggers = {
+  #    redeployment = timestamp()
+  #  }  
 
   capacity_provider_strategy {
-    capacity_provider = aws_ecs_capacity_provider.private.name
+    capacity_provider = aws_ecs_capacity_provider.provider.name
     weight            = 100
   }
 

@@ -1,5 +1,5 @@
-output "private_ecs_asg_arn" {
-  value = aws_autoscaling_group.private.arn
+output "ecs_asg_arn" {
+  value = aws_autoscaling_group.asg.arn
 }
 
 output "user_ui_tg_arn" {
