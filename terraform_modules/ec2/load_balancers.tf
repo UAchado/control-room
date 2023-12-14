@@ -1,8 +1,21 @@
+resource "aws_security_group" "ui_lb_sg" {
+  name        = "ui-lb-sg"
+  description = "Allow HTTP access to UI instances"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_lb" "ui_lb" {
   name               = "ui-lb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.lbs_sg_id]
+  security_groups    = [var.lbs_sg_id, aws_security_group.ui_lb_sg.id]
   subnets            = var.public_subnet_ids
 }
 
@@ -60,7 +73,7 @@ resource "aws_lb_target_group" "inventory_api_tg" {
   vpc_id      = var.vpc_id
 
   health_check {
-    path = "/inventory/v1/"
+    path = "/inventory/v1"
   }
 }
 
@@ -91,7 +104,7 @@ resource "aws_lb_target_group" "drop_off_points_api_tg" {
   vpc_id      = var.vpc_id
 
   health_check {
-    path = "/points/v1/"
+    path = "/points/v1"
   }
 }
 

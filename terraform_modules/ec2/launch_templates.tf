@@ -24,7 +24,7 @@ resource "aws_launch_template" "ecs_lt" {
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name = "private-ecs-instance"
+      Name = "ecs-instance"
     }
   }
 

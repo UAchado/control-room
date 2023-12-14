@@ -1,6 +1,6 @@
 # create a bastion host
 resource "aws_instance" "bastion" {
-    ami           = "ami-0d5eff06f840b45e9"
+    ami           = "ami-06e4ca05d431835e9"
     instance_type = "t2.micro"
     key_name      = var.key_name
     vpc_security_group_ids = [var.public_instances_sg_id]
