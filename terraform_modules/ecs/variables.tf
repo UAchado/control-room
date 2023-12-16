@@ -48,11 +48,7 @@ variable "drop_off_points_api_image_repo" {
 }
 
 # urls
-variable "inventory_lb_dns_name" {
-  type = string
-}
-
-variable "points_lb_dns_name" {
+variable "lb_dns_name" {
   type = string
 }
 

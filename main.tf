@@ -83,8 +83,7 @@ module "ecs" {
   drop_off_points_api_image_repo = var.drop_off_points_api_image_repo
 
   # ui env vars
-  inventory_lb_dns_name       = module.ec2.inventory_lb_dns_name
-  points_lb_dns_name          = module.ec2.points_lb_dns_name
+  lb_dns_name                 = module.ec2.lb_dns_name
   google_api_key              = var.google_api_key
   vite_client_id              = var.vite_client_id
   vite_client_secret          = var.vite_client_secret
