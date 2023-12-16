@@ -19,7 +19,6 @@ variable "inventory_db_name" {
   type        = string
   description = "The name for the inventory database"
   default     = "inventory_db"
-  
 }
 
 variable "drop_off_points_db_user" {
@@ -59,40 +58,4 @@ variable "drop_off_points_api_image_repo" {
 variable "public_key" {
   type        = string
   description = "The value of the public key"
-}
-
-variable "google_api_key" {
-  type        = string
-  description = "The Google API key"
-}
-
-variable "smtp_server" {
-  type        = string
-  description = "The SMTP server"
-}
-
-variable "smtp_port" {
-  type        = string
-  description = "The SMTP port"
-}
-
-variable "email_username" {
-  type        = string
-  description = "The SMTP username"
-}
-
-variable "email_password" {
-  type        = string
-  description = "The SMTP password"
-  sensitive   = true
-}
-
-variable "cognito_issuer" {
-  type        = string
-  description = "The Cognito issuer"
-}
-
-variable "cognito_audience" {
-  type        = string
-  description = "The Cognito audience"
 }

@@ -47,11 +47,6 @@ variable "drop_off_points_api_image_repo" {
   type = string
 }
 
-# google api key
-variable "google_api_key" {
-  type = string
-}
-
 # urls
 variable "inventory_lb_dns_name" {
   type = string
@@ -70,7 +65,7 @@ variable "drop_off_points_db_connection_string" {
   type = string
 }
 
-# emails
+# env var apis
 variable "smtp_server" {
   type = string
 }
@@ -92,5 +87,30 @@ variable "cognito_issuer" {
 }
 
 variable "cognito_audience" {
+  type = string
+}
+
+# env var ui
+variable "google_api_key" {
+  type = string
+}
+
+variable "vite_client_id" {
+  type = string
+}
+
+variable "vite_client_secret" {
+  type = string
+}
+
+variable "vite_cognito_code_endpoint" {
+  type = string
+}
+
+variable "vite_cognito_token_endpoint" {
+  type = string
+}
+
+variable "vite_redirect_uri" {
   type = string
 }

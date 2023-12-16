@@ -1,5 +1,5 @@
 resource "aws_security_group" "lbs" {
-  name        = "inventory_lb_sg"
+  name        = "lb_sg"
   description = "Security Group for Inventory Load Balancer"
   vpc_id      = aws_vpc.main.id
 
@@ -31,7 +31,7 @@ resource "aws_security_group" "instances" {
     security_groups = [aws_security_group.public_instances.id]
   }
 
-  # allow inbound traffic from the public subnet on port 8000 (api)
+  # allow inbound traffic from the public subnet on port 80 (ui)
   ingress {
     from_port       = 80
     to_port         = 80

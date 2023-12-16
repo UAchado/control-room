@@ -48,10 +48,10 @@ resource "aws_lb_target_group" "user_ui_tg" {
 
 resource "aws_lb" "inventory_lb" {
   name               = "inventory-lb"
-  internal           = true
+  internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.lbs_sg_id]
-  subnets            = var.private_subnet_ids
+  security_groups    = [var.lbs_sg_id, aws_security_group.ui_lb_sg.id]
+  subnets            = var.public_subnet_ids
 }
 
 resource "aws_lb_listener" "inventory" {
@@ -79,10 +79,10 @@ resource "aws_lb_target_group" "inventory_api_tg" {
 
 resource "aws_lb" "points_lb" {
   name               = "points-lb"
-  internal           = true
+  internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.lbs_sg_id]
-  subnets            = var.private_subnet_ids
+  security_groups    = [var.lbs_sg_id, aws_security_group.ui_lb_sg.id]
+  subnets            = var.public_subnet_ids
 }
 
 resource "aws_lb_listener" "points" {

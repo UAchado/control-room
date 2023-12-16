@@ -37,15 +37,35 @@ resource "aws_ecs_task_definition" "user_ui_task_definition" {
 
         {
           name  = "VITE_INVENTORY_URL"
-          value = "${var.inventory_lb_dns_name}/inventory/v1/"
+          value = "http://${var.inventory_lb_dns_name}/inventory/v1/"
         },
         {
           name  = "VITE_POINTS_URL"
-          value = "${var.points_lb_dns_name}/points/v1/"
+          value = "http://${var.points_lb_dns_name}/points/v1/"
         },
         {
-          name = "VITE_API_KEY"
+          name  = "VITE_API_KEY"
           value = "${var.google_api_key}"
+        },
+        {
+          name  = "VITE_CLIENT_ID"
+          value = var.vite_client_id
+        },
+        {
+          name  = "VITE_CLIENT_SECRET"
+          value = var.vite_client_secret
+        },
+        {
+          name  = "VITE_COGNITO_CODE_ENDPOINT"
+          value = var.vite_cognito_code_endpoint
+        },
+        {
+          name  = "VITE_COGNITO_TOKEN_ENDPOINT"
+          value = var.vite_cognito_token_endpoint
+        },
+        {
+          name  = "VITE_REDIRECT_URI"
+          value = var.vite_redirect_uri
         }
       ]
     }
@@ -91,27 +111,27 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
           value = var.inventory_db_connection_string
         },
         {
-          name = "SMTP_SERVER"
+          name  = "SMTP_SERVER"
           value = var.smtp_server
         },
         {
-          name = "SMTP_PORT"
+          name  = "SMTP_PORT"
           value = var.smtp_port
         },
         {
-          name = "EMAIL_USERNAME"
+          name  = "EMAIL_USERNAME"
           value = var.email_username
         },
         {
-          name = "EMAIL_PASSWORD"
+          name  = "EMAIL_PASSWORD"
           value = var.email_password
         },
         {
-          name = "COGNITO_ISSUER"
+          name  = "COGNITO_ISSUER"
           value = var.cognito_issuer
         },
         {
-          name = "COGNITO_AUDIENCE"
+          name  = "COGNITO_AUDIENCE"
           value = var.cognito_audience
         }
       ]
@@ -158,11 +178,11 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
           value = var.drop_off_points_db_connection_string
         },
         {
-          name = "COGNITO_ISSUER"
+          name  = "COGNITO_ISSUER"
           value = var.cognito_issuer
         },
         {
-          name = "COGNITO_AUDIENCE"
+          name  = "COGNITO_AUDIENCE"
           value = var.cognito_audience
         }
       ]

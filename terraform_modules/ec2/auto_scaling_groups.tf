@@ -3,8 +3,8 @@ resource "aws_autoscaling_group" "asg" {
   health_check_grace_period = 0
   health_check_type = "EC2"
 
-  min_size            = 2
-  max_size            = 6
+  min_size            = 1
+  max_size            = 4
 
   launch_template {
     id      = aws_launch_template.ecs_lt.id
