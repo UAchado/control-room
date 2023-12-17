@@ -54,7 +54,8 @@ module "ec2" {
   public_subnet_ids  = module.networking.public_subnet_ids
   private_subnet_ids = module.networking.private_subnet_ids
 
-  key_name = module.iam.key_name
+  key_name        = module.iam.key_name
+  certificate_arn = var.certificate_arn
 
   lbs_sg_id              = module.networking.lbs_sg_id
   instances_sg_id        = module.networking.instances_sg_id
@@ -79,8 +80,11 @@ module "ecs" {
 
   # docker images
   user_ui_image                  = var.user_ui_image
+  user_ui_image_tag              = var.user_ui_image_tag
   inventory_api_image_repo       = var.inventory_api_image_repo
+  inventory_image_tag            = var.inventory_image_tag
   drop_off_points_api_image_repo = var.drop_off_points_api_image_repo
+  points_image_tag               = var.points_image_tag
 
   # ui env vars
   lb_dns_name                 = module.ec2.lb_dns_name
@@ -94,10 +98,14 @@ module "ecs" {
   # api env vars
   drop_off_points_db_connection_string = module.database.drop_off_points_db_connection_string
   inventory_db_connection_string       = module.database.inventory_db_connection_string
+  s3_bucket_name                       = module.database.s3_bucket_name
+  boto3_access_key                     = module.database.access_key
+  boto3_secret_key                     = module.database.secret_key
   cognito_issuer                       = var.cognito_issuer
   cognito_audience                     = var.cognito_audience
   smtp_server                          = var.smtp_server
   smtp_port                            = var.smtp_port
   email_username                       = var.email_username
   email_password                       = var.email_password
+
 }

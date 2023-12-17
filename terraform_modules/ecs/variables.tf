@@ -47,6 +47,18 @@ variable "drop_off_points_api_image_repo" {
   type = string
 }
 
+variable "user_ui_image_tag" {
+  type = string
+}
+
+variable "inventory_image_tag" {
+  type = string
+}
+
+variable "points_image_tag" {
+  type = string
+}
+
 # urls
 variable "lb_dns_name" {
   type = string
@@ -83,6 +95,18 @@ variable "cognito_issuer" {
 }
 
 variable "cognito_audience" {
+  type = string
+}
+
+variable "s3_bucket_name" {
+  type = string
+}
+
+variable "boto3_access_key" {
+  type = string
+}
+
+variable "boto3_secret_key" {
   type = string
 }
 

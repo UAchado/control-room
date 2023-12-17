@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "user_ui_task_definition" {
   container_definitions = jsonencode([
     {
       name      = "uachado-user-ui"
-      image     = var.user_ui_image
+      image     = var.user_ui_image + ":${var.user_ui_image_tag}"
       cpu       = 512
       memory    = 512
       essential = true
@@ -88,7 +88,7 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
   container_definitions = jsonencode([
     {
       name      = "uachado-inventory-api"
-      image     = var.inventory_api_image_repo
+      image     = var.inventory_api_image_repo + ":${var.inventory_image_tag}"
       cpu       = 512
       memory    = 512
       essential = true
@@ -135,6 +135,18 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
         {
           name  = "COGNITO_AUDIENCE"
           value = var.cognito_audience
+        },
+        {
+          name = "AWS_BUCKET_NAME"
+          value = var.s3_bucket_name
+        },
+        {
+          name = "AWS_ACCESS_KEY_ID"
+          value = var.boto3_access_key
+        },
+        {
+          name = "AWS_SECRET_ACCESS_KEY"
+          value = var.boto3_secret_key
         }
       ]
     }
@@ -155,7 +167,7 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
   container_definitions = jsonencode([
     {
       name      = "uachado-drop-off-points-api"
-      image     = var.drop_off_points_api_image_repo
+      image     = var.drop_off_points_api_image_repo + ":${var.points_image_tag}"
       cpu       = 512
       memory    = 512
       essential = true

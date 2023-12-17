@@ -25,3 +25,7 @@ variable "instances_sg_id" {
 variable "public_instances_sg_id" {
   type = string
 }
+
+variable "certificate_arn" {
+  type = string
+}

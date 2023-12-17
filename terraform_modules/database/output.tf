@@ -12,3 +12,11 @@ output "s3_bucket_name" {
   value = aws_s3_bucket.image_bucket.bucket
   description = "Name of the S3 bucket for images"
 }
+
+output "access_key" {
+  value = aws_iam_access_key.boto3_user_key.id
+}
+
+output "secret_key" {
+  value = aws_iam_access_key.boto3_user_key.secret
+}

@@ -1,7 +1,7 @@
 variable "region" {
-  type = string
+  type        = string
   description = "The region to deploy the infrastructure"
-  default = "us-west-1"
+  default     = "us-west-1"
 }
 
 variable "inventory_db_user" {
@@ -51,11 +51,31 @@ variable "inventory_api_image_repo" {
 
 variable "drop_off_points_api_image_repo" {
   type        = string
-  description = "The image for the drop-off-points-api container"
+  description = "The image for the drop-off-points-api container" 
   default     = "334642795591.dkr.ecr.us-west-1.amazonaws.com/drop-off-points-api"
+}
+
+variable "user_ui_image_tag" {
+  type = string
+  default = "latest"
+}
+
+variable "inventory_image_tag" {
+  type = string
+  default = "latest"
+}
+
+variable "points_image_tag" {
+  type = string
+  default = "latest"
 }
 
 variable "public_key" {
   type        = string
   description = "The value of the public key"
+}
+
+variable "certificate_arn" {
+  type        = string
+  description = "The ARN of the SSL certificate"
 }
