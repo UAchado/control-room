@@ -99,3 +99,8 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
     }
   ])
 }
+
+resource "aws_cloudwatch_log_group" "inventory_api_log_group" {
+  name              = "/ecs/uachado-inventory-api"
+  retention_in_days = 7
+}
