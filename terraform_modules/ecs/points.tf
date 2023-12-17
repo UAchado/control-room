@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
   family             = "drop-off-points-api-task"
   network_mode       = "awsvpc"
   execution_role_arn = "arn:aws:iam::334642795591:role/ecsTaskExecutionRole"
-  cpu                = 512
+  cpu                = 256
 
   runtime_platform {
     operating_system_family = "LINUX"
@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
     {
       name      = "uachado-drop-off-points-api"
       image     = format("%s:%s", var.drop_off_points_api_image_repo, var.points_image_tag)
-      cpu       = 512
+      cpu       = 256
       memory    = 512
       essential = true
       portMappings = [
@@ -49,7 +49,7 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "uachado-drop-off-points-api"
+          awslogs-group         = "/ecs/uachado-drop-off-points-api"
           awslogs-region        = var.region
           awslogs-stream-prefix = "ecs"
         }
@@ -70,4 +70,9 @@ resource "aws_ecs_task_definition" "drop_off_points_api_task_definition" {
       ]
     }
   ])
+}
+
+resource "aws_cloudwatch_log_group" "points_log_group" {
+  name              = "/ecs/uachado-drop-off-points-api"
+  retention_in_days = 7
 }

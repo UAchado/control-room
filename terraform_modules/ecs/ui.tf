@@ -50,7 +50,7 @@ resource "aws_ecs_task_definition" "user_ui_task_definition" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "uachado-user-ui"
+          awslogs-group         = "/ecs/uachado-user-ui"
           awslogs-region        = var.region
           awslogs-stream-prefix = "ecs"
         }
@@ -95,4 +95,9 @@ resource "aws_ecs_task_definition" "user_ui_task_definition" {
       ]
     }
   ])
+}
+
+resource "aws_log_group" "user_ui_log_group" {
+  name              = "/ecs/uachado-user-ui"
+  retention_in_days = 7
 }

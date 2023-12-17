@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
   family             = "inventory-api-task"
   network_mode       = "awsvpc"
   execution_role_arn = "arn:aws:iam::334642795591:role/ecsTaskExecutionRole"
-  cpu                = 512
+  cpu                = 256
 
   runtime_platform {
     operating_system_family = "LINUX"
@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
     {
       name      = "uachado-inventory-api"
       image     = format("%s:%s", var.inventory_api_image_repo, var.inventory_image_tag)
-      cpu       = 512
+      cpu       = 256
       memory    = 512
       essential = true
       portMappings = [
@@ -49,7 +49,7 @@ resource "aws_ecs_task_definition" "inventory_api_task_definition" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "uachado-inventory-api"
+          awslogs-group         = "/ecs/uachado-inventory-api"
           awslogs-region        = var.region
           awslogs-stream-prefix = "ecs"
         }
