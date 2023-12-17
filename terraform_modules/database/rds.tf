@@ -33,6 +33,7 @@ resource "aws_db_instance" "inventory_db" {
 
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
 
+  monitoring_interval = 60
 
   tags = {
     Name = "Inventory MYSQL Database"
@@ -55,6 +56,8 @@ resource "aws_db_instance" "drop_off_points_db" {
   identifier           = "points-db"
 
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
+
+  monitoring_interval = 60
 
   tags = {
     Name = "Drop-Off-Points MYSQL Database"
