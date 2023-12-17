@@ -1,8 +1,8 @@
-name: Points CD Pipeline
+name: Inventory CD Pipeline
 
 on:
   repository_dispatch:
-    types: [update-points-service]
+    types: [update-inventory-service]
 
 jobs:
   deploy:
@@ -22,4 +22,4 @@ jobs:
     - name: Terraform Apply
       env: 
         IMAGE_TAG: ${{ github.event.client_payload.image_tag }}
-      run: terraform apply -auto-approve -input=false -var="points_image_tag=${IMAGE_TAG}"
+      run: terraform apply -auto-approve -input=false -var="inventory_image_tag=${IMAGE_TAG}"

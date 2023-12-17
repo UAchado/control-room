@@ -1,4 +1,4 @@
-name: Points CD Pipeline
+name: UI CD Pipeline
 
 on:
   repository_dispatch:

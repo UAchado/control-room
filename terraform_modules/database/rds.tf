@@ -31,7 +31,7 @@ resource "aws_db_instance" "inventory_db" {
   publicly_accessible  = false
   identifier           = "inventory-db"
 
-  vpc_security_group_ids = [var.rds_sg_id]
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
 
 
   tags = {
@@ -54,9 +54,23 @@ resource "aws_db_instance" "drop_off_points_db" {
   publicly_accessible  = false
   identifier           = "points-db"
 
-  vpc_security_group_ids = [var.rds_sg_id]
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
 
   tags = {
     Name = "Drop-Off-Points MYSQL Database"
+  }
+}
+
+resource "aws_security_group" "rds_sg" {
+  name        = "rds_sg"
+  description = "Security Group for RDS Instances"
+  vpc_id      = var.vpc_id
+
+  # allow inbound traffic on port 3306 (mysql) from the private instances
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/24"]
   }
 }

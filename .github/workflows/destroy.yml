@@ -20,8 +20,5 @@ jobs:
     - name: Terraform Init
       run: terraform init -input=false
   
-    - name: Terraform Plan
-      run: terraform plan -input=false
-  
     - name: Terraform Destroy
-      run: terraform destroy -auto-approve -input=false -target=module.ecs -target=module.ec2
+      run: terraform destroy -auto-approve -input=false -target=module.ecs -target=module.ec2 -target=module.database

@@ -13,19 +13,3 @@ output "vpc_id" {
 output "nat_gateway_id" {
   value = aws_nat_gateway.nat_gateway.id
 }
-
-output "lbs_sg_id" {
-  value = aws_security_group.lbs.id
-}
-
-output "instances_sg_id" {
-  value = aws_security_group.instances.id
-}
-
-output "public_instances_sg_id" {
-  value = aws_security_group.public_instances.id
-}
-
-output "rds_sg_id" {
-  value = aws_security_group.rds_sg.id
-}

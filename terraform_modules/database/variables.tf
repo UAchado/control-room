@@ -42,8 +42,3 @@ variable "drop_off_points_db_name" {
   type        = string
   description = "Name for the Drop Off Points Database"
 }
-
-variable "rds_sg_id" {
-  type        = string
-  description = "The ID of the private security group"
-}

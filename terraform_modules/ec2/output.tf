@@ -17,3 +17,7 @@ output "drop_off_points_api_tg_arn" {
 output "lb_dns_name" {
   value = aws_lb.lb.dns_name
 }
+
+output "instances_sg_id" {
+  value = aws_security_group.instances.id
+}

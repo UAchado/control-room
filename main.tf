@@ -36,7 +36,6 @@ module "database" {
 
   vpc_id             = module.networking.vpc_id
   private_subnet_ids = module.networking.private_subnet_ids
-  rds_sg_id          = module.networking.rds_sg_id
 
   inventory_db_user     = var.inventory_db_user
   inventory_db_password = var.inventory_db_password
@@ -57,10 +56,6 @@ module "ec2" {
   key_name        = module.iam.key_name
   certificate_arn = var.certificate_arn
 
-  lbs_sg_id              = module.networking.lbs_sg_id
-  instances_sg_id        = module.networking.instances_sg_id
-  public_instances_sg_id = module.networking.public_instances_sg_id
-
   # s3_bucket_name = module.database.s3_bucket_name
 }
 
@@ -69,14 +64,16 @@ module "ecs" {
 
   # infrastructure & security
   region             = var.region
+  vpc_id             = module.networking.vpc_id
   public_subnet_ids  = module.networking.public_subnet_ids
   private_subnet_ids = module.networking.private_subnet_ids
-  instances_sg_id    = module.networking.instances_sg_id
+
 
   ecs_asg_arn                = module.ec2.ecs_asg_arn
   user_ui_tg_arn             = module.ec2.user_ui_tg_arn
   inventory_api_tg_arn       = module.ec2.inventory_api_tg_arn
   drop_off_points_api_tg_arn = module.ec2.drop_off_points_api_tg_arn
+  instances_sg_id            = module.ec2.instances_sg_id
 
   # docker images
   user_ui_image                  = var.user_ui_image
