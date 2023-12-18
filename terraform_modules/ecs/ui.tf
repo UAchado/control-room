@@ -5,8 +5,8 @@ resource "aws_ecs_service" "user_ui_service" {
   desired_count   = 1
 
   network_configuration {
-    subnets          = var.private_subnet_ids
-    security_groups  = [var.instances_sg_id]
+    subnets         = var.private_subnet_ids
+    security_groups = [var.instances_sg_id]
   }
 
   capacity_provider_strategy {
@@ -101,3 +101,32 @@ resource "aws_cloudwatch_log_group" "user_ui_log_group" {
   name              = "/ecs/uachado-user-ui"
   retention_in_days = 7
 }
+
+# resource "aws_appautoscaling_target" "user_ui_target" {
+#   max_capacity       = 3
+#   min_capacity       = 1
+#   resource_id        = "service/${aws_ecs_cluster.ecs_cluster.name}/${aws_ecs_service.user_ui_service.name}"
+#   scalable_dimension = "ecs:service:DesiredCount"
+#   service_namespace  = "ecs"
+
+#   // Optional: Depends on the specifics of your setup
+#   depends_on = [aws_ecs_service.user_ui_service]
+# }
+
+# resource "aws_appautoscaling_policy" "user_ui_policy" {
+#   name               = "user-ui-policy"
+#   policy_type        = "TargetTrackingScaling"
+#   resource_id        = "service/${aws_ecs_cluster.ecs_cluster.name}/${aws_ecs_service.user_ui_service.name}"
+#   scalable_dimension = "ecs:service:DesiredCount"
+#   service_namespace  = "ecs"
+
+#   target_tracking_scaling_policy_configuration {
+#     predefined_metric_specification {
+#       predefined_metric_type = "ECSServiceAverageCPUUtilization"
+#     }
+
+#     target_value       = 80.0
+#     scale_in_cooldown  = 3000
+#     scale_out_cooldown = 3000
+#   }
+# }
