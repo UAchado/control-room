@@ -22,4 +22,4 @@ jobs:
     - name: Terraform Apply
       env: 
         IMAGE_TAG: ${{ github.event.client_payload.image_tag }}
-      run: terraform apply -auto-approve -input=false -var="points_image_tag=${IMAGE_TAG}"
+      run: terraform apply -auto-approve -input=false -var="points_image_tag=${IMAGE_TAG}" -target=module.ecs.aws_ecs_task_definition.drop_off_points_api_task_definition
